@@ -1,0 +1,31 @@
+<%- include("../includes/start.ejs")%>
+<link rel="stylesheet" type="text/css" href="css/forms.css">
+<link rel="stylesheet" type="text/css" href="css/auth.css">
+
+</head>
+<body>
+<%-include("../includes/navigation.ejs")%>
+
+<% if (errorMessage) {%>
+
+    <div class="user-message user-message--error"><%= errorMessage%></div>
+
+<% } %>
+
+<br>
+<br>
+
+<form class="login-form jumbotron shadow" action="/reset" method="post">
+
+    <div class="">
+        <label for="username">Username</label>
+        <input class="form-control form-control-sm" type="text" id="username" name="username">
+    </div>
+
+    <br>
+
+    <button class="btn btn-sm" type="submit">Reset password</button>
+
+
+</form>
+<%-include("../includes/end.ejs")%>

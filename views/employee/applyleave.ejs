@@ -1,0 +1,59 @@
+<%- include("../includes/start.ejs")%>
+<link rel="stylesheet" type="text/css" href="css/forms.css">
+<link rel="stylesheet" type="text/css" href="css/leave.css">
+</head>
+<body>
+<%-include("../includes/navigation.ejs")%>
+
+<br>
+<br>
+
+<form class="leave-form jumbotron shadow" action="/apply" method="post">
+    <div class="">
+        <label for="leave-type">Leave Type</label>
+        <select class="form-control form-control-sm" id="leave-type" name="leaveType">
+            <option value="casual">Casual Leave</option>
+            <option value="medical">Medical Leave</option>
+        </select>
+    </div>
+    <div class="">
+        <label for="visitingPlace">Visiting Place</label>
+        <input class="form-control form-control-sm" type="text" id="visitingPlace" name="visitingPlace">
+    </div>
+
+    <div class="">
+        <label for="leave-reason">Leave Reason</label>
+        <textarea class="form-control form-control-sm" id="leave-reason" rows="6" name="leaveMessage"></textarea>
+    </div>
+
+
+    <div class="">
+        <label for="from-date">From Date</label>
+        <input class="form-control form-control-sm" type="date" id="from-date" name="fromDate">
+    </div>
+
+
+    <div class="">
+        <label for="from-time">From Time</label>
+        <input class="form-control form-control-sm" type="time" id="from-time" name="fromTime">
+    </div>
+
+
+    <div class="">
+        <label for="to-date">To Date</label>
+        <input class="form-control form-control-sm" type="date" id="to-date" name="toDate">
+    </div>
+
+
+    <div class="">
+        <label for="to-time">To Time</label>
+        <input class="form-control form-control-sm" type="time" id="to-time" name="toTime">
+    </div>
+
+    <br>
+
+    <button class="btn btn-sm" type="submit">Submit Leave</button>
+
+
+</form>
+<%-include("../includes/end.ejs")%>

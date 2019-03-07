@@ -1,0 +1,147 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    padding: 1rem;
+    margin: auto;
+}
+
+#jumbotron{
+    background-color: #6cff5a;
+    /*background-image: url("https://images.unsplash.com/photo-1461360228754-6e81c478b882?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60");*/
+    background-image: url("https://images.unsplash.com/photo-1519821172144-4f87d85de2a1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60");
+}
+
+form {
+    display: inline;
+}
+
+.centered {
+    text-align: center;
+}
+
+.main-header{
+    background:  #00695c;
+    padding: 0 1.5rem;
+    display: flex;
+    height: 3.5rem;
+    align-items: center;
+    width: 100%;
+}
+
+.main-nav{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.main-nav__items{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.main-nav__item{
+    margin: 0 1rem;
+    padding: 0;
+}
+
+.main-nav__item a,
+.main-nav__item button{
+    font: inherit;
+    background: transparent;
+    border: none;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+.main-nav__item a:hover,
+.main-nav__item a:active,
+.main-nav__item a.active,
+.main-nav__item button:hover,
+.main-nav__item button:active{
+    color: #ffeb3b;
+}
+
+.btn{
+    color: #00695c;
+    background: white;
+    border: 0.1rem solid #00695c;
+}
+
+.link{
+    font: inherit;
+    color: #00695c;
+}
+
+.btn:hover,
+.btn:active
+{
+    background: #00695c;
+    color: white;
+}
+
+.link:hover{
+    color: #00695c;
+}
+
+.grid{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: stretch;
+}
+
+.card{
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+}
+
+.card_header,
+.card__info{
+    padding: 1rem;
+}
+
+.card__info h2,
+.card_header h1{
+    margin: 0;
+}
+
+.card_delete{
+    padding: 1rem;
+    text-align: center;
+}
+
+.card_delete button{
+    margin: 0 0.25rem;
+}
+
+
+.user-message{
+    margin: auto;
+    width: 30rem;
+    border: 1px solid #4771fa;
+    padding: 0.5rem;
+    border-radius: 3px;
+    background: #b9c9ff;
+    text-align: center;
+
+}
+
+.user-message--error{
+    border-color: red;
+    background-color: rgb(255,176,176);
+    color: red;
+
+}
+

@@ -1,0 +1,56 @@
+<%- include("includes/start.ejs")%>
+</head>
+<body>
+    <%-include("includes/navigation.ejs")%>
+
+    <% if (isLoggedIn) {%>
+
+        <% if (userType==="employee") {%>
+
+            <!--<div class="container">-->
+                <!--<div id="jumbotron" class="jumbotron">-->
+                    <!--<h1 class="display-4">Manage your leaves easily</h1>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div id="jumbotron" class="jumbotron-fluid jumbotron text-white">
+                <div class="container">
+                    <h1 class="display-4">Manage your leaves easily</h1>
+                </div>
+            </div>
+
+        <% } else {%>
+
+            <!--<div class="container">-->
+                <!--<div id="jumbotron" class="jumbotron">-->
+                    <!--<h1 class="display-4">Welcome Admin</h1>-->
+                <!--</div>-->
+            <!--</div>-->
+
+            <div id="jumbotron" class="jumbotron-fluid jumbotron text-white">
+                <div class="container">
+                    <h1 class="display-4">Welcome Admin</h1>
+                </div>
+            </div>
+
+        <% }%>
+
+    <% } else {%>
+
+        <!--<div class="container">-->
+            <!--<div id="jumbotron" class="jumbotron text-white">-->
+                <!--<h1 class="display-4">Welcome to Leaveportal</h1>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div id="jumbotron" class="jumbotron-fluid jumbotron text-white">
+            <div class="container">
+                <h1 class="display-4">Welcome to Leaveportal</h1>
+                <br>
+                <a href="/login" class="btn btn-light align-bottom">Login</a>
+            </div>
+        </div>
+
+    <% }%>
+
+<%-include("includes/end.ejs")%>

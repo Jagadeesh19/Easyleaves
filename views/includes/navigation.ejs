@@ -1,0 +1,61 @@
+<header class="main-header">
+    <nav class="main-nav">
+        <ul class="main-nav__items">
+            <li class="main-nav__item">
+                <a href="/" class="<%= path==="/"?'active':''%>">Leaveportal</a>
+            </li>
+
+            <% if (isLoggedIn) {%>
+
+                <% if (userType==="employee") {%>
+                    <li class="main-nav__item">
+                        <a href="/apply" class="<%= path==="/apply"?'active':''%>">Apply Leave</a>
+                    </li>
+                    <li class="main-nav__item">
+                        <a href="/status" class="<%= path==="/status"?'active':''%>">Leave Status</a>
+                    </li>
+                    <li class="main-nav__item">
+                        <a href="/history" class="<%= path==="/history"?'active':''%>">Leave History</a>
+                    </li>
+                    <li class="main-nav__item">
+                        <a href="/leaves" class="<%= path==="/leaves"?'active':''%>">Leaves recieved</a>
+                    </li>
+                    <li class="main-nav__item">
+                        <a href="/supervisee" class="<%= path==="/supervisee"?'active':''%>">Supervisee Info</a>
+                    </li>
+                    <li class="main-nav__item">
+                        <a href="/account" class="<%= path==="/account"?'active':''%>">Account</a>
+                    </li>
+
+                <% } else {%>
+                        <li class="main-nav__item">
+                            <a href="/admin/add-employee" class="<%= path==="/add-employee"?'active':''%>">Add Employee</a>
+                        </li>
+
+                        <li class="main-nav__item">
+                            <a href="/admin/employees" class="<%= path==="/employees"?'active':''%>">Admin Employees</a>
+                        </li>
+
+                <% }%>
+
+            <% }%>
+
+        </ul>
+
+        <ul class="main-nav__items">
+
+            <% if (!isLoggedIn) {%>
+                <li class="main-nav__item">
+                    <a href="/login" class="<%= path==="/login"?'active':''%>">Login</a>
+                </li>
+            <% } else {%>
+                <li class="main-nav__item">
+                    <form action="/logout" method="post" >
+                        <button type="submit">Logout</button>
+                        </form>
+            <%  }%>
+
+            </li>
+        </ul>
+    </nav>
+</header>

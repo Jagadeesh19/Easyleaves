@@ -1,0 +1,26 @@
+/*.form-control{*/
+    /*margin: 1rem 0;*/
+/*}*/
+
+/*.form-control label,*/
+/*.form-control input ,*/
+/*.form-control textarea,*/
+/*.form-control select{*/
+    /*display: block;*/
+    /*width: 100%;*/
+    /*margin-bottom: 0.25rem;*/
+/*}*/
+
+/*.form-control input,*/
+/*.form-control textarea,*/
+/*.form-control select{*/
+    /*border: 1px solid #a1a1a1;*/
+    /*font: inherit;*/
+    /*border-radius: 2px;*/
+/*}*/
+
+.form-control:focus{
+    border:  0.1rem solid #00695c;
+    box-shadow:none;
+
+}

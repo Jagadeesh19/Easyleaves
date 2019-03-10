@@ -8,6 +8,8 @@ const router=express.Router();
 
 router.get("/apply",isEmployee,superviseeController.getApplyLeave);
 
+router.post("/apply",isEmployee,superviseeController.postApplyLeave);
+
 router.get("/status",isEmployee,superviseeController.getLeaveStatus);
 
 router.get("/history",isEmployee,superviseeController.getLeaveHistory);

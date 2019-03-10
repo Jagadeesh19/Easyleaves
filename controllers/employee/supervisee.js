@@ -1,3 +1,5 @@
+const Leave=require("../../models/leave");
+
 exports.getIndex=(req,res,next)=>{
     res.render("index",{
         pageTitle:"welcome to the portal",
@@ -18,7 +20,18 @@ exports.postApplyLeave=(req,res,next)=>{
     const leaveType=req.body.leaveType;
     const visitingPlace=req.body.visitingPlace;
     const leaveMessage=req.body.leaveMessage;
-    const fromDate=req.body.fromDate;
+    const fromDate=new Date(req.body.fromDate);
+    const toDate=new Date(req.body.toDate);
+    const leave=new Leave({
+        leaveType:leaveType,
+        leaveMessage:leaveMessage,
+        visitingPlace:visitingPlace,
+        startDate: fromDate,
+        endDate: toDate
+    })
+    console.log(leave);
+    leave.save();
+    res.redirect("/status");
 };
 
 exports.getLeaveStatus=(req,res,next)=>{

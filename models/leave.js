@@ -22,6 +22,11 @@ const leaveSchema=new Schema({
     visitingPlace:{
         type: String,
         required: true
+    },
+    leaveStatus:{
+        type:String,
+        required:true,
+        default:"Not accepted"
     }
 })
 

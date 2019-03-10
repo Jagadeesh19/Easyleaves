@@ -14,6 +14,7 @@ const adminRoutes=require("./routes/admin");
 const authRoutes=require("./routes/auth");
 const errorController=require("./controllers/error");
 const Admin=require("./models/admin");
+const Employee=require("./models/employee");
 
 const MONGO_URI=
     "mongodb+srv://jagadeesh:Yuva12345@cluster0-ge9fd.mongodb.net/leaveportal";
@@ -46,6 +47,22 @@ app.use((req,res,next)=>{
     res.locals.isLoggedIn=req.session.isLoggedIn;
     res.locals.userType=req.session.userType;
     next();
+})
+
+app.use((req,res,next)=>{
+    if (!req.session.user){
+        return next();
+    }
+    if (req.session.userType!=="admin"){
+        Employee.findById(req.session.user._id)
+            .then(employee=>{
+                req.user=employee;
+                next();
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+    }
 })
 
 

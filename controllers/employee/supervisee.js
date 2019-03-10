@@ -27,11 +27,23 @@ exports.postApplyLeave=(req,res,next)=>{
         leaveMessage:leaveMessage,
         visitingPlace:visitingPlace,
         startDate: fromDate,
-        endDate: toDate
+        endDate: toDate,
+        employee: req.user._id
     })
     console.log(leave);
-    leave.save();
-    res.redirect("/status");
+    leave.save()
+        .then((result)=>{
+            req.user.leave=result._id;
+            return req.user.save()
+        })
+        .then(result=>{
+            console.log(result);
+            res.redirect("/status");
+        })
+        .catch(err=>{
+            console.log(err);
+            next(new Error());
+        })
 };
 
 exports.getLeaveStatus=(req,res,next)=>{

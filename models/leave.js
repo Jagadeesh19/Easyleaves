@@ -27,6 +27,11 @@ const leaveSchema=new Schema({
         type:String,
         required:true,
         default:"Not accepted"
+    },
+    employee:{
+        type:Schema.Types.ObjectId,
+        required:true,
+        ref: "Employee"
     }
 })
 

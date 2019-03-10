@@ -12,7 +12,7 @@ const indexController=require("./controllers/startpage");
 const employeeRoutes=require("./routes/employee");
 const adminRoutes=require("./routes/admin");
 const authRoutes=require("./routes/auth");
-const errorController=require("./controllers/error/404");
+const errorController=require("./controllers/error");
 const Admin=require("./models/admin");
 
 const MONGO_URI=
@@ -57,12 +57,18 @@ app.use("/admin",adminRoutes);
 
 app.use(authRoutes);
 
+app.use("/500",errorController.get500);
+
 app.use(errorController.get404);
+
+app.use((error,req,res,next)=>{
+    res.redirect("/500");
+})
 
 mongoose
     .connect(MONGO_URI)
     .then(result=>{
-        app.listen(4000);
+        app.listen(3000);
         return Admin.findOne()
     })
     .then(admin=>{

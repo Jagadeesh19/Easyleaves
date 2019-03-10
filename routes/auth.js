@@ -1,4 +1,5 @@
 const express=require("express");
+const {check,body}=require("express-validator/check");
 
 const authControllers=require("../controllers/auth");
 
@@ -16,6 +17,23 @@ router.get("/reset/:token",authControllers.getNewPassword);
 
 router.post("/reset",authControllers.postReset);
 
-router.post("/new-password",authControllers.postNewPassword);
+router.post("/new-password",
+    [
+        body(
+            "password",
+            "The password should have atleast 5 characters"
+        )
+            .isLength({min:5}),
+        body(
+            "confirmPassword"
+        )
+            .custom((value,{req})=>{
+                if (req.body.password!==value){
+                    throw new Error("Passwords have to match");
+                }
+                return true;
+            })
+    ]
+    ,authControllers.postNewPassword);
 
 module.exports=router;

@@ -3,13 +3,14 @@ const crypto=require("crypto");
 const bcrypt=require("bcryptjs");
 const nodemailer=require("nodemailer");
 const sendgridTransport=require("nodemailer-sendgrid-transport");
+const {validationResult}=require("express-validator/check");
 
 const Employee=require("../models/employee");
 const Admin=require("../models/admin");
 
 const transporter=nodemailer.createTransport(sendgridTransport({
     auth:{
-        api_key: "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"
+        api_key: "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"
     }
 }));
 
@@ -22,7 +23,11 @@ exports.getLogin=(req,res,next)=> {
     res.render("auth/login", {
         pageTitle: "Login page",
         path: "/login",
-        errorMessage:message
+        errorMessage:message,
+        oldInput:{
+            username:"",
+            password:""
+        }
     });
 }
 
@@ -46,16 +51,30 @@ exports.postLogin=(req,res,next)=> {
                         res.redirect("/");
                     });
                 }
-                req.flash("error","Invalid username or password");
-                res.redirect("/login");
+                res.status(422).render("auth/login", {
+                    pageTitle: "Login page",
+                    path: "/login",
+                    errorMessage: "Invalid username or password",
+                    oldInput: {
+                        username: username,
+                        password: password
+                    }
+                });
             })
     }
     else{
         Employee.findOne({email:username})
             .then(employee=>{
                 if (!employee){
-                    req.flash("error","Invalid username or password");
-                    return res.redirect("/login");
+                    return res.status(422).render("auth/login", {
+                        pageTitle: "Login page",
+                        path: "/login",
+                        errorMessage: "Invalid username or password",
+                        oldInput: {
+                            username: username,
+                            password: password
+                        }
+                    });
                 }
                 bcrypt.compare(password,employee.password)
                     .then(doMatch=>{
@@ -68,16 +87,24 @@ exports.postLogin=(req,res,next)=> {
                                 res.redirect("/");
                             });
                         }
-                        req.flash("error","Invalid username or password");
-                        res.redirect("/login");
+                        res.status(422).render("auth/login", {
+                            pageTitle: "Login page",
+                            path: "/login",
+                            errorMessage: "Invalid username or password",
+                            oldInput: {
+                                username: username,
+                                password: password
+                            }
+                        });
                     })
                     .catch(err=>{
                         console.log(err);
-                        res.redirect("/login");
+                        return next(new Error());
                     });
             })
             .catch(err=>{
                 console.log(err);
+                return next(new Error());
             });
     }
 }
@@ -97,7 +124,9 @@ exports.getReset=(req,res,next)=>{
     res.render("auth/reset", {
         pageTitle: "Reset Password",
         path: "/reset",
-        errorMessage:message
+        errorMessage:message,
+        oldInput:"",
+        isInvalid:false
     });
 }
 
@@ -136,8 +165,13 @@ exports.postReset=(req,res,next)=>{
             Employee.findOne({email:username})
                 .then(employee=>{
                     if (!employee){
-                        req.flash("error","No account found");
-                        return res.redirect("/reset");
+                        return res.render("auth/reset", {
+                            pageTitle: "Reset Password",
+                            path: "/reset",
+                            errorMessage:"No account found",
+                            oldInput:username,
+                            isInvalid:true
+                        });
                     }
                     employee.resetToken=token;
                     employee.resetTokenExpiration=Date.now()+3600000;
@@ -157,6 +191,7 @@ exports.postReset=(req,res,next)=>{
                 })
                 .catch(err=>{
                     console.log(err);
+                    return next(new Error());
                 })
         }
     })
@@ -185,6 +220,7 @@ exports.getNewPassword=(req,res,next)=>{
             })
             .catch(err=>{
                 console.log(err);
+                return next(new Error());
             })
     }
     else{
@@ -214,6 +250,12 @@ exports.postNewPassword=(req,res,next)=>{
     const passwordToken=req.body.passwordToken;
     let resetUser;
 
+    const errors=validationResult(req);
+    if (!errors.isEmpty()){
+        req.flash("error",errors.array()[0].msg);
+        return res.redirect("/reset/"+req.body.passwordToken);
+    }
+
     if (userType==="admin"){
         Admin.findOne({resetToken:passwordToken,resetTokenExpiration:{$gt:Date.now()}})
             .then(admin=>{
@@ -231,6 +273,7 @@ exports.postNewPassword=(req,res,next)=>{
             })
             .catch(err=>{
                 console.log(err);
+                return next(new Error());
             })
     }
     else{
@@ -250,6 +293,7 @@ exports.postNewPassword=(req,res,next)=>{
             })
             .catch(err=>{
                 console.log(err);
+                return next(new Error());
             })
     }
 }

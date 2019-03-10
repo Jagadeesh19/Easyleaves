@@ -20,18 +20,34 @@
 
         <div class="">
             <!--<label for="name">Name</label>-->
-            <input class="form-control-sm form-control" type="text" id="name" placeholder="Employee Name" name="name" value="<% if (editing) {%><%= employee.name%><%} %>">
+            <input
+                    class="form-control-sm form-control"
+                    type="text"
+                    id="name"
+                    placeholder="Employee Name"
+                    name="name"
+                    value="<% if (editing) {%><%= employee.name%><%} else { %><%= oldInput.name%><% }%>">
         </div>
 
         <br>
 
         <div class="">
             <!--<label for="email">Email</label>-->
-            <input class="form-control-sm form-control" type="email" placeholder="Employee Email" id="email" name="email" value="<% if (editing) {%><%= employee.email%><%} %>">
+            <input
+                    class="form-control-sm form-control <%= validationErrors.find(e=>e.param=="email")?"invalid":""%>"
+                    type="email"
+                    placeholder="Employee Email"
+                    id="email"
+                    name="email"
+                    value="<% if (editing) {%><%= employee.email%><%} else { %> <%= oldInput.email%> <% }%>">
         </div>
 
     <% } else { %>
-        <input class="form-control-sm form-control" type="hidden" name="employeeId" value="<%= employee._id%>">
+        <input
+                class=""
+                type="hidden"
+                name="employeeId"
+                value="<%= employee._id%>">
 
     <% }%>
 
@@ -39,7 +55,13 @@
 
     <div class="">
         <!--<label for="supervisor">Supervisor</label>-->
-        <input class="form-control-sm form-control" type="email" placeholder="Supervisor Email" id="supervisor" name="supervisor" value="<% if (editing && employee.supervisor) {%><%= employee.supervisor.email%><%} %>">
+        <input
+                class="form-control-sm form-control <%= validationErrors.find(e=>e.param=="supervisor")?"invalid":""%>"
+                type="email"
+                placeholder="Supervisor Email"
+                id="supervisor"
+                name="supervisor"
+                value="<% if (editing && employee.supervisor) {%><%= employee.supervisor.email%><%} else { %> <%= oldInput.supervisorEmail%> <% }%>">
     </div>
 
     <br>

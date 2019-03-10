@@ -3,12 +3,13 @@ const crypto=require("crypto");
 const bcrypt=require("bcryptjs");
 const nodemailer=require("nodemailer");
 const sendgridTransport=require("nodemailer-sendgrid-transport");
+const {validationResult}=require("express-validator/check");
 
 const Employee=require("../../models/employee");
 
 const transporter=nodemailer.createTransport(sendgridTransport({
     auth:{
-        api_key: "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"
+        api_key: "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"
     }
 }));
 
@@ -22,7 +23,9 @@ exports.getAddEmployee=(req,res,next)=>{
         path:"/add-employee",
         pageTitle:"Add Employees",
         errorMessage:message,
-        editing:false
+        editing:false,
+        validationErrors:[],
+        oldInput:{email:"",name:"",supervisorEmail:""}
     });
 }
 
@@ -31,91 +34,92 @@ exports.postAddEmployee=(req,res,next)=>{
     const name=req.body.name;
     const supervisorEmail=req.body.supervisor.toLowerCase();
     let password;
+    const errors=validationResult(req);
+    if(!errors.isEmpty()){
+        return res.status(422).render("admin/edit-employee",{
+            path:"/add-employee",
+            pageTitle:"Add Employees",
+            errorMessage:errors.array()[0].msg,
+            editing:false,
+            validationErrors:errors.array(),
+            oldInput:{email:email,name:name,supervisorEmail:supervisorEmail}
+        });
+    }
     const employeeObject={
         email:email,
         name:name
     }
     let supervisor;
-    Employee.findOne({email:email})
-        .then(employee=>{
-            if (employee){
-                req.flash("error","The employee already exists");
-                res.redirect("/admin/add-employee");
-            }
-            else{
-                crypto.randomBytes(7,(err,buffer)=>{
-                    if (err){
-                        return console.log(err);
-                    }
-                    password=buffer.toString("hex");
-                    bcrypt.hash(password,12)
-                        .then(hashedPassword=>{
-                            employeeObject.password=hashedPassword;
-                            if (supervisorEmail) {
-                                Employee.findOne({email: supervisorEmail})
-                                    .then(employee=>{
-                                        if (!employee){
-                                            req.flash("error","The supervisor does not exist")
-                                            res.redirect("/admin/add-employee");
-                                        }
-                                        supervisor=employee;
-                                        employeeObject.supervisor=employee._id;
-                                        const newEmployee=new Employee(employeeObject);
-                                        newEmployee.save()
-                                            .then(result=>{
-                                                console.log(result);
-                                                supervisor.supervisee.push(result._id);
-                                                return supervisor.save();
+    crypto.randomBytes(7,(err,buffer)=>{
+        if (err){
+            return console.log(err);
+        }
+        password=buffer.toString("hex");
+        bcrypt.hash(password,12)
+            .then(hashedPassword=>{
+                employeeObject.password=hashedPassword;
+                if (supervisorEmail) {
+                    Employee.findOne({email: supervisorEmail})
+                        .then(employee=>{
+                            supervisor=employee;
+                            employeeObject.supervisor=employee._id;
+                            const newEmployee=new Employee(employeeObject);
+                            newEmployee.save()
+                                .then(result=>{
+                                    console.log(result);
+                                    supervisor.supervisee.push(result._id);
+                                    return supervisor.save();
 
-                                            })
-                                            .then(result=>{
-                                                console.log(result);
-                                                res.redirect("/admin/employees");
-                                                return transporter.sendMail({
-                                                    to: email,
-                                                    from: "admin@leaveportal.com",
-                                                    subject: "Your account created",
-                                                    html:`
-                                                    <h3>Your account has been created at Leaveportal</h3>
-                                                    <h3>username: ${email}<br/>password: ${password}</h3>
-                                                    <h3>Kindly change your password.</h3>`
-                                                });
-                                            })
-                                    })
-                                    
-                                    .catch(err=>{
-                                        console.log(err);
+                                })
+                                .then(result=>{
+                                    console.log(result);
+                                    res.redirect("/admin/employees");
+                                    return transporter.sendMail({
+                                        to: email,
+                                        from: "admin@leaveportal.com",
+                                        subject: "Your account created",
+                                        html:`
+                                        <h3>Your account has been created at Leaveportal</h3>
+                                        <h3>username: ${email}<br/>password: ${password}</h3>
+                                        <h3>Kindly change your password.</h3>`
                                     });
-                            }
-                            else{
-                                const newEmployee=new Employee(employeeObject);
-                                newEmployee.save()
-                                    .then(result=>{
-                                        console.log(result._id);
-                                        res.redirect("/admin/employees");
-                                        return transporter.sendMail({
-                                            to: email,
-                                            from: "admin@leaveportal.com",
-                                            subject: "Your account created",
-                                            html:`
-                                    <h3>Your account has been created at Leaveportal</h3>
-                                    <h3>username: ${email}<br/>password: ${password}</h3>
-                                    <h3>Kindly change your password.</h3>
-                                `
-                                        });
-                                    })
-                                    .catch(err=>{
-                                        console.log(err);
-                                    });
-                            }
+                                })
+                        })
+
+                        .catch(err=>{
+                            console.log(err);
+                            return next(new Error());
+                        });
+                }
+                else{
+                    const newEmployee=new Employee(employeeObject);
+                    newEmployee.save()
+                        .then(result=>{
+                            console.log(result._id);
+                            res.redirect("/admin/employees");
+                            return transporter.sendMail({
+                                to: email,
+                                from: "admin@leaveportal.com",
+                                subject: "Your account created",
+                                html:`
+                        <h3>Your account has been created at Leaveportal</h3>
+                        <h3>username: ${email}<br/>password: ${password}</h3>
+                        <h3>Kindly change your password.</h3>
+                    `
+                            });
                         })
                         .catch(err=>{
                             console.log(err);
+                            return next(new Error());
                         });
-                });
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+                return next(new Error());
+            });
+    });
 
-            }
-        })
 }
 
 
@@ -138,6 +142,7 @@ exports.getEmployees=(req,res,next)=>{
         })
         .catch(err=>{
             console.log(err);
+            return next(new Error());
         })
 
 }
@@ -158,11 +163,14 @@ exports.getEditEmployee=(req,res,next)=>{
                 pageTitle:"Edit Employees",
                 errorMessage:message,
                 editing:true,
-                employee:employee
+                employee:employee,
+                validationErrors:[],
+                oldInput:{email:"",name:"",supervisorEmail:""}
             });
         })
         .catch(err=>{
             console.log(err);
+            return next(new Error());
         })
 }
 
@@ -197,6 +205,7 @@ exports.postRemoveEmployee=(req,res,next)=>{
         })
         .catch((err=>{
             console.log(err);
+            return next(new Error());
         }))
 }
 

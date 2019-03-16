@@ -63,6 +63,9 @@ app.use((req,res,next)=>{
                 console.log(err);
             })
     }
+    else{
+        next();
+    }
 })
 
 

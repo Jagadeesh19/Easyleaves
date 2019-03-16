@@ -33,7 +33,8 @@ exports.postApplyLeave=(req,res,next)=>{
     console.log(leave);
     leave.save()
         .then((result)=>{
-            req.user.leave=result._id;
+            req.user.leaves.push(result._id);
+            req.user.leaveCount=(req.user.leaveCount)?(req.user.leaveCount+1):1;
             return req.user.save()
         })
         .then(result=>{

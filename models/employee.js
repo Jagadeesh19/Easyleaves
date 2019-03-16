@@ -25,10 +25,11 @@ const employeeSchema=new Schema({
         type: [Schema.Types.ObjectId],
         ref:"Employee"
     },
-    leave:{
+    leaves:[{
         type:Schema.Types.ObjectId,
-        ref: "Leave"
-    },
+        ref:"Leave"
+    }],
+    leaveCount:Number,
     resetToken:String,
     resetTokenExpiration: Date
 

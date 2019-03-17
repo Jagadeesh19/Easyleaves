@@ -12,6 +12,8 @@ router.post("/apply",isEmployee,superviseeController.postApplyLeave);
 
 router.get("/status",isEmployee,superviseeController.getLeaveStatus);
 
+router.post("/cancel",isEmployee,superviseeController.postCancelLeave);
+
 router.get("/history",isEmployee,superviseeController.getLeaveHistory);
 
 router.get("/account",isEmployee,superviseeController.getAccount);

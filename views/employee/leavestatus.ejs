@@ -52,6 +52,7 @@
                             </li>
                             <li class="list-group-item m-auto w-50 text-center">
                                 <form action="/cancel" method="post">
+                                    <input type="hidden" name="leaveId" value="<%= leave._id%>">
                                     <button class="btn btn-sm">Cancel</button>
                                 </form>
                             </li>

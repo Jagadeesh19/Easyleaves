@@ -61,6 +61,29 @@ exports.getLeaveStatus=(req,res,next)=>{
         })
 };
 
+exports.postCancelLeave=(req,res,next)=>{
+    const leaveId=req.body.leaveId;
+    const updatedEmployee=req.user;
+    Leave.findById(leaveId)
+        .then(leave=>{
+            return leave.remove()
+        })
+        .then(result=>{
+            updatedEmployee.leaves=updatedEmployee.leaves.filter(p=>p!=leaveId)
+            updatedEmployee.leaveCount-=1;
+            console.log(updatedEmployee,"hi");
+            req.user=updatedEmployee;
+            return req.user.save()
+        })
+        .then(result=>{
+            console.log(result);
+            res.redirect("/status");
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+};
+
 exports.getLeaveHistory=(req,res,next)=>{
     res.render("employee/leavehistory",{
         pageTitle:"leave history",

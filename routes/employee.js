@@ -20,6 +20,8 @@ router.get("/account",isEmployee,superviseeController.getAccount);
 
 router.get("/leaves",isEmployee,supervisorController.addLeavesRecieved);
 
+router.post("/response",isEmployee,supervisorController.postLeaveResponse);
+
 router.get("/supervisee",isEmployee,supervisorController.addSuperviseeInfo);
 
 module.exports=router;

@@ -71,7 +71,6 @@ exports.postCancelLeave=(req,res,next)=>{
         .then(result=>{
             updatedEmployee.leaves=updatedEmployee.leaves.filter(p=>p!=leaveId)
             updatedEmployee.leaveCount-=1;
-            console.log(updatedEmployee,"hi");
             req.user=updatedEmployee;
             return req.user.save()
         })

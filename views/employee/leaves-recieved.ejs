@@ -23,6 +23,7 @@
             let i=1;
             for (let employee of employees) {
                 for (let leave of employee.leaves) {
+                    if (leave.leaveStatus=="not accepted"){
         %>
 
             <tr>
@@ -54,12 +55,14 @@
                                 <%= leave.leaveMessage%>
                             </li>
                             <li class="list-group-item m-auto w-50 text-center">
-                                <form action="/approve">
+                                <form action="/response?status=approved" method="post">
+                                    <input type="hidden" name="leaveId" value="<%= leave._id%>">
                                     <button class="btn">
                                         Approve
                                     </button>
                                 </form>
-                                <form action="/reject">
+                                <form action="/response?status=rejected" method="post">
+                                    <input type="hidden" name="leaveId" value="<%= leave._id%>">
                                     <button class="btn">
                                         Reject
                                     </button>
@@ -74,6 +77,7 @@
             ++i;
         }
     }
+}
         %>
 
         </tbody>

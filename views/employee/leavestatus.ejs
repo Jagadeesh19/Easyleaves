@@ -54,7 +54,7 @@
                                 <form action="/cancel" method="post">
                                     <input type="hidden" name="leaveId" value="<%= leave._id%>">
                                     <button
-                                            <%= (leave.leaveStatus!="not approved")?"disabled":"" %>
+                                            <%= (leave.leaveStatus!="Not accepted")?"disabled":"" %>
                                             class="btn btn-sm">Cancel</button>
                                 </form>
                             </li>

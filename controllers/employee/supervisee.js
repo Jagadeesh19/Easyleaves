@@ -84,10 +84,46 @@ exports.postCancelLeave=(req,res,next)=>{
 };
 
 exports.getLeaveHistory=(req,res,next)=>{
-    res.render("employee/leavehistory",{
-        pageTitle:"leave history",
-        path:"/history"
-    });
+    let filteredLeaves;
+    Leave.updateMany({
+        employee:req.user._id,
+        endDate:{$lt:Date.now()},
+        leaveStatus:"Not accepted"
+    },
+    {
+        $set:{
+            leaveStatus: "Timed out"
+        }
+    })
+        .then(result=>{
+            return Leave.find({
+                employee:req.user._id,
+                endDate:{$lt:Date.now()}
+            })
+        })
+        .then(leaves=>{
+            filteredLeaves=leaves;
+            req.user.leaves=req.user.leaves.filter(leaveId=>{
+                for (let leave of leaves){
+                    if (leave._id.toString()===leaveId.toString()){
+                        return false;
+                    }
+                }
+                return true;
+            })
+            req.user.leaveCount=req.user.leaves.length;
+            return req.user.save()
+        })
+        .then(result=>{
+            res.render("employee/leavehistory",{
+                pageTitle:"leave history",
+                path:"/history",
+                leaves:filteredLeaves
+            });
+        })
+        .catch(err=>{
+            console.log(err);
+        })
 };
 
 exports.getAccount=(req,res,next)=>{

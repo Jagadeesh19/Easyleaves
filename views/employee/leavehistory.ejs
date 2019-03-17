@@ -2,4 +2,66 @@
 </head>
 <body>
 <%-include("../includes/navigation.ejs")%>
+
+<div class="container">
+    <br>
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Visting place</th>
+            <th scope="col">Leave type</th>
+            <th scope="col">Reason</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <%
+        let i=1;
+                for (let leave of leaves) {
+        %>
+
+            <tr>
+                <th scope="row"><%= i%></th>
+                <td><%= leave.visitingPlace%></td>
+                <td><%= leave.leaveType%></td>
+                <td><%=leave.leaveMessage%></td>
+                <td><%= leave.leaveStatus%></td>
+                <td>
+                    <button class="btn btn-sm" data-toggle="collapse" data-target="#details<%= i%>">
+                        <i class="fas fa-caret-down"></i>
+                    </button>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <div class="collapse" id="details<%= i%>">
+                        <ul class="list-group">
+                            <li class="list-group-item m-auto w-50 text-center">
+                                <span class="mr-5 font-weight-bold">Start Date:</span>
+                                <%= leave.startDate.toDateString()%>
+                            </li>
+                            <li class="list-group-item m-auto w-50 text-center">
+                                <span class="mr-5 font-weight-bold">End Date:</span>
+                                <%= leave.endDate.toDateString()%>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+
+        <%
+            ++i;
+        }
+        %>
+
+        </tbody>
+    </table>
+</div>
+
 <%-include("../includes/end.ejs")%>

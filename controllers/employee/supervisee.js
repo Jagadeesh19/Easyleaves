@@ -1,4 +1,5 @@
 const Leave=require("../../models/leave");
+const Employee=require("../../models/employee");
 
 exports.getIndex=(req,res,next)=>{
     res.render("index",{
@@ -48,10 +49,16 @@ exports.postApplyLeave=(req,res,next)=>{
 };
 
 exports.getLeaveStatus=(req,res,next)=>{
-    res.render("employee/leavestatus",{
-        pageTitle:"leave status",
-        path:"/status"
-    });
+    Employee.findById(req.user._id)
+        .populate("leaves")
+        .then(employee=>{
+            console.log(employee)
+            res.render("employee/leavestatus",{
+                pageTitle:"leave status",
+                path:"/status",
+                employee: employee
+            });
+        })
 };
 
 exports.getLeaveHistory=(req,res,next)=>{

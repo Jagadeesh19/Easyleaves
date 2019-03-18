@@ -1,4 +1,5 @@
 const express=require("express");
+const {check,body}=require("express-validator/check");
 
 const supervisorController=require("../controllers/employee/supervisor");
 const superviseeController=require("../controllers/employee/supervisee");
@@ -8,7 +9,26 @@ const router=express.Router();
 
 router.get("/apply",isEmployee,superviseeController.getApplyLeave);
 
-router.post("/apply",isEmployee,superviseeController.postApplyLeave);
+router.post("/apply",
+    [
+      body("fromDate")
+          .custom((val,{req})=>{
+              if (new Date(val)<Date.now()){
+                  throw new Error("Enter a valid date");
+              }
+              return true;
+          }),
+      body("toDate")
+          .custom((val,{req})=>{
+              if (new Date(val)<new Date(req.body.fromDate)){
+                  throw new Error("Enter a valid combination of dates");
+              }
+              return true;
+          })
+    ],
+    isEmployee,
+    superviseeController.postApplyLeave
+);
 
 router.get("/status",isEmployee,superviseeController.getLeaveStatus);
 

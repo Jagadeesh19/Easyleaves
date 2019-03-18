@@ -1,3 +1,5 @@
+const {validationResult}=require("express-validator/check");
+
 const Leave=require("../../models/leave");
 const Employee=require("../../models/employee");
 
@@ -10,10 +12,13 @@ exports.getIndex=(req,res,next)=>{
 
 exports.getApplyLeave=(req,res,next)=>{
     req.session.isData=true;
-    console.log(req.session);
+    // console.log(req.session);
     res.render("employee/applyleave",{
         pageTitle:"apply leave",
-        path:"/apply"
+        path:"/apply",
+        errorMessage:null,
+        validationErrors:[],
+        oldInput:{}
     });
 };
 
@@ -23,6 +28,22 @@ exports.postApplyLeave=(req,res,next)=>{
     const leaveMessage=req.body.leaveMessage;
     const fromDate=new Date(req.body.fromDate);
     const toDate=new Date(req.body.toDate);
+    const errors=validationResult(req);
+    if (!errors.isEmpty()){
+        return res.render("employee/applyleave",{
+            pageTitle:"apply leave",
+            path:"/apply",
+            errorMessage:errors.array()[0].msg,
+            validationErrors:errors.array(),
+            oldInput:{
+                leaveType:leaveType,
+                visitingPlace:visitingPlace,
+                leaveMessage:leaveMessage,
+                fromDate:fromDate,
+                toDate:toDate
+            }
+        });
+    }
     const leave=new Leave({
         leaveType:leaveType,
         leaveMessage:leaveMessage,
@@ -31,7 +52,7 @@ exports.postApplyLeave=(req,res,next)=>{
         endDate: toDate,
         employee: req.user._id
     })
-    console.log(leave);
+    // console.log(leave);
     leave.save()
         .then((result)=>{
             req.user.leaves.push(result._id);
@@ -39,7 +60,7 @@ exports.postApplyLeave=(req,res,next)=>{
             return req.user.save()
         })
         .then(result=>{
-            console.log(result);
+            // console.log(result);
             res.redirect("/status");
         })
         .catch(err=>{
@@ -52,7 +73,7 @@ exports.getLeaveStatus=(req,res,next)=>{
     Employee.findById(req.user._id)
         .populate("leaves")
         .then(employee=>{
-            console.log(employee)
+            // console.log(employee)
             res.render("employee/leavestatus",{
                 pageTitle:"leave status",
                 path:"/status",
@@ -75,7 +96,7 @@ exports.postCancelLeave=(req,res,next)=>{
             return req.user.save()
         })
         .then(result=>{
-            console.log(result);
+            // console.log(result);
             res.redirect("/status");
         })
         .catch(err=>{

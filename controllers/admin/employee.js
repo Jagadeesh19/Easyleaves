@@ -178,8 +178,8 @@ exports.postEditEmployee=(req,res,next)=>{
     res.redirect("/admin/employees");
 }
 
-exports.postRemoveEmployee=(req,res,next)=>{
-    const employeeId=req.body.employeeId;
+exports.RemoveEmployee=(req,res,next)=>{
+    const employeeId=req.params.employeeId;
     let supervisorId;
     Employee.findById(employeeId)
         .then(employee=>{
@@ -191,7 +191,9 @@ exports.postRemoveEmployee=(req,res,next)=>{
             employee.remove()
                 .then(result=>{
                     if (!supervisorId){
-                        return res.redirect("/admin/employees");
+                        return res.status(200).json({
+                            message:"success!"
+                        });
                     }
                     Employee.findById(supervisorId)
                         .then(supervisor=>{
@@ -199,13 +201,16 @@ exports.postRemoveEmployee=(req,res,next)=>{
                             return supervisor.save();
                         })
                         .then(result=>{
-                            res.redirect("/admin/employees");
+                            res.status(200).json({
+                                message:"success!"
+                            });
                         })
                 })
         })
         .catch((err=>{
-            console.log(err);
-            return next(new Error());
+            res.status(500).json({
+                message:"deleting employee failed!"
+            });
         }))
 }
 

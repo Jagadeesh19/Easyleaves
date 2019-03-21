@@ -48,6 +48,6 @@ router.post("/edit-employee",isAdmin,adminController.postEditEmployee);
 
 router.get("/employees",isAdmin,adminController.getEmployees);
 
-router.post("/remove",isAdmin,adminController.postRemoveEmployee);
+router.delete("/remove/:employeeId",isAdmin,adminController.RemoveEmployee);
 
 module.exports=router;

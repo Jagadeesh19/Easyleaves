@@ -10,7 +10,7 @@ const Admin=require("../models/admin");
 
 const transporter=nodemailer.createTransport(sendgridTransport({
     auth:{
-        api_key: "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"
+        api_key: process.env.MAIL_API
     }
 }));
 

@@ -1,4 +1,5 @@
 const path=require("path");
+const fs = require('fs');
 
 const express=require("express");
 const bodyParser=require("body-parser");
@@ -7,6 +8,9 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const flash=require("connect-flash");
 const bcrypt=require("bcryptjs");
+const helmet=require("helmet");
+const compression=require("compression");
+const morgan=require("morgan");
 
 const indexController=require("./controllers/startpage");
 const employeeRoutes=require("./routes/employee");
@@ -17,8 +21,7 @@ const Admin=require("./models/admin");
 const Employee=require("./models/employee");
 
 const MONGO_URI=
-    "mongodb+srv://jagadeesh:Yuva12345@cluster0-ge9fd.mongodb.net/leaveportal";
-
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0-ge9fd.mongodb.net/${process.env.MONGO_DEFAULT_DATABASE}`;
 const app=express();
 const store=new MongoDBStore({
     uri:MONGO_URI,
@@ -28,6 +31,14 @@ const store=new MongoDBStore({
 app.set("view engine","ejs");
 
 app.use(express.static(path.join(__dirname,"Public")));
+
+const accessLogStream=fs.createWriteStream(path.join(__dirname,"access.log"),{
+    flags:"a"
+});
+
+app.use(helmet());
+app.use(compression());
+app.use(morgan("combined",{stream:accessLogStream}));
 
 app.use(bodyParser.urlencoded({extended:false}));
 
@@ -88,7 +99,7 @@ app.use((error,req,res,next)=>{
 mongoose
     .connect(MONGO_URI)
     .then(result=>{
-        app.listen(3000);
+        app.listen(process.env.PORT || 3000);
         return Admin.findOne()
     })
     .then(admin=>{

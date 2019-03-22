@@ -41,8 +41,14 @@
                     <div class="card_delete">
 
                         <!--<a href="/admin/edit-employee/<%= employee._id %>" class="btn btn-sm">Edit</a>-->
-                        <input type="hidden" value="<%= employee._id %>" name="employeeId">
-                        <button class="btn btn-sm" onclick="deleteEmployee(this)" type="button">Remove</button>
+
+                        <!--<input type="hidden" value="<%= employee._id %>" name="employeeId">-->
+                        <!--<button class="btn btn-sm" onclick="deleteEmployee(this)" type="button">Remove</button>-->
+
+                        <form action="/admin/remove" method="POST">
+                            <input type="hidden" value="<%= employee._id %>" name="employeeId">
+                            <button class="btn btn-sm" type="submit">Remove</button>
+                        </form>
                     </div>
                 </article>
 
@@ -57,4 +63,4 @@
 </main>
 
 <%-include("../includes/end.ejs")%>
-<script src="/javascript/admin.js"></script>
+<!--<script src="/javascript/admin.js"></script>-->

@@ -66,7 +66,7 @@ exports.postAddEmployee=(req,res,next)=>{
                             const newEmployee=new Employee(employeeObject);
                             newEmployee.save()
                                 .then(result=>{
-                                    console.log(result);
+                                    // console.log(result);
                                     supervisor.supervisee.push(result._id);
                                     return supervisor.save();
 
@@ -95,7 +95,7 @@ exports.postAddEmployee=(req,res,next)=>{
                     const newEmployee=new Employee(employeeObject);
                     newEmployee.save()
                         .then(result=>{
-                            console.log(result._id);
+                            // console.log(result._id);
                             res.redirect("/admin/employees");
                             return transporter.sendMail({
                                 to: email,
@@ -152,7 +152,7 @@ exports.getEditEmployee=(req,res,next)=>{
     Employee.findById(employeeId)
         .populate("supervisor")
         .then(employee=>{
-            console.log(employee);
+            // console.log(employee);
             let message=req.flash("error");
             if (message.length>0)
                 message=message[0];
@@ -175,7 +175,49 @@ exports.getEditEmployee=(req,res,next)=>{
 }
 
 exports.postEditEmployee=(req,res,next)=>{
-    res.redirect("/admin/employees");
+    const supervisorEmail=req.body.supervisor;
+    const employeeId=req.body.employeeId;
+    let updatedEmployee;
+    let newSupervisor;
+
+    Employee.findById(employeeId)
+        .then(employee=>{
+            updatedEmployee=employee;
+            if (employee.supervisor){
+                return Employee.findById(employee.supervisor)
+                    .then(supervisor=>{
+                        supervisor.supervisee=supervisor.supervisee.filter(eId=>{
+                            if (eId.toString()!==employeeId)
+                                return true;
+                            return false;
+                        })
+                        return supervisor.save()
+                    })
+            }
+        })
+        .then(result=>{
+            if (supervisorEmail){
+                return Employee.findOne({email:supervisorEmail})
+                    .then(supervisor=>{
+                        newSupervisor=supervisor;
+                        supervisor.supervisee.push(updatedEmployee._id);
+                        return supervisor.save()
+                    })
+                    .then(result=>{
+                        updatedEmployee.supervisor=newSupervisor._id;
+                        return updatedEmployee.save()
+                    })
+            }
+            updatedEmployee.supervisor=null;
+            return updatedEmployee.save()
+        })
+        .then(result=>{
+            res.redirect("/admin/employees");
+        })
+        .catch(err=>{
+            console.log(err);
+            return next(new Error());
+        })
 }
 
 // exports.RemoveEmployee=(req,res,next)=>{

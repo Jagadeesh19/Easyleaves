@@ -2,4 +2,72 @@
 </head>
 <body>
 <%-include("../includes/navigation.ejs")%>
+<div class="container">
+    <br>
+    <br>
+    <br>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Leave Type</th>
+            <th scope="col">Visiting place</th>
+            <th scope="col">Email</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <%
+        let i=1;
+                for (let leave of leaves) {
+
+        %>
+
+            <tr>
+                <th scope="row"><%= i%></th>
+                <td><%= leave.employee.name%></td>
+                <td><%= leave.leaveType%></td>
+                <td><%= leave.visitingPlace%></td>
+                <td><%= leave.employee.email%></td>
+                <td>
+                    <button class="btn btn-sm" data-toggle="collapse" data-target="#details<%= i%>">
+                        <i class="fas fa-caret-down"></i>
+                    </button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <div class="collapse" id="details<%= i%>">
+                        <ul class="list-group">
+                            <li class="list-group-item m-auto w-50 text-center">
+                                <span class="mr-5 font-weight-bold">Start Date:</span>
+                                <%= leave.startDate.toDateString()%>
+                            </li>
+                            <li class="list-group-item m-auto w-50 text-center">
+                                <span class="mr-5 font-weight-bold">End Date:</span>
+                                <%= leave.endDate.toDateString()%>
+                            </li>
+                            <li class="list-group-item m-auto w-50 text-center">
+                                <span class="mr-5 font-weight-bold">Leave Message:</span>
+                                <%= leave.leaveMessage%>
+                            </li>
+                            <li class="list-group-item m-auto w-50 text-center">
+                                <span class="mr-5 font-weight-bold">Leave Status:</span>
+                                <%= leave.leaveStatus%>
+                            </li>
+
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+
+        <%
+            ++i;
+        }
+        %>
+
+        </tbody>
+    </table>
+</div>
 <%-include("../includes/end.ejs")%>

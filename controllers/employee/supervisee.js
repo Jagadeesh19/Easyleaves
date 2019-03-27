@@ -5,7 +5,7 @@ const Employee=require("../../models/employee");
 
 exports.getIndex=(req,res,next)=>{
     res.render("index",{
-        pageTitle:"welcome to the portal",
+        pageTitle:"welcome to the easyleaves",
         path:"/"
     });
 };
@@ -50,7 +50,8 @@ exports.postApplyLeave=(req,res,next)=>{
         visitingPlace:visitingPlace,
         startDate: fromDate,
         endDate: toDate,
-        employee: req.user._id
+        employee: req.user._id,
+        supervisor:req.user.supervisor
     })
     // console.log(leave);
     leave.save()
@@ -87,7 +88,8 @@ exports.postCancelLeave=(req,res,next)=>{
     const updatedEmployee=req.user;
     Leave.findById(leaveId)
         .then(leave=>{
-            return leave.remove()
+            leave.leaveStatus="Cancelled";
+            return leave.save()
         })
         .then(result=>{
             updatedEmployee.leaves=updatedEmployee.leaves.filter(p=>p!=leaveId)
@@ -118,8 +120,16 @@ exports.getLeaveHistory=(req,res,next)=>{
     })
         .then(result=>{
             return Leave.find({
-                employee:req.user._id,
-                endDate:{$lt:Date.now()}
+                $or:[
+                    {
+                        employee:req.user._id,
+                        leaveStatus:"Cancelled"
+                    },
+                    {
+                        employee:req.user._id,
+                        endDate:{$lt:Date.now()}
+                    }
+                ]
             })
         })
         .then(leaves=>{

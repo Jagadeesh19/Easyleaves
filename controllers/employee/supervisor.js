@@ -34,10 +34,30 @@ exports.postLeaveResponse=(req,res,next)=>{
 };
 
 exports.addSuperviseeInfo=(req,res,next)=>{
-    Employee.find({supervisor: req.user._id})
-        .
-    res.render("employee/supervisee-info",{
-        pageTitle:"Supervisee",
-        path:"/supervisee"
-    })
+    Leave
+        .find({
+            $or:[
+                {
+                    leaveStatus:"approved",
+                    supervisor:req.user._id
+                },
+                {
+                    leaveStatus:"rejected",
+                    supervisor:req.user._id
+                }
+            ]
+        })
+        .populate("employee")
+        .then(leaves=>{
+            console.log(leaves);
+            res.render("employee/supervisee-info",{
+                pageTitle:"Leaves recieved",
+                path:"/supervisee",
+                leaves:leaves
+            })
+        })
+        .catch(err=>{
+            console.log(err);
+        })
+
 };

@@ -57,13 +57,13 @@
                             <li class="list-group-item m-auto w-50 text-center">
                                 <form action="/response?status=approved" method="post">
                                     <input type="hidden" name="leaveId" value="<%= leave._id%>">
-                                    <button class="btn">
+                                    <button class="btn btn-sm">
                                         Approve
                                     </button>
                                 </form>
                                 <form action="/response?status=rejected" method="post">
                                     <input type="hidden" name="leaveId" value="<%= leave._id%>">
-                                    <button class="btn">
+                                    <button class="btn btn-sm">
                                         Reject
                                     </button>
                                 </form>

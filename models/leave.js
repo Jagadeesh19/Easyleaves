@@ -32,6 +32,11 @@ const leaveSchema=new Schema({
         type:Schema.Types.ObjectId,
         required:true,
         ref: "Employee"
+    },
+    supervisor:{
+        type:Schema.Types.ObjectId,
+        required:true,
+        ref: "Employee"
     }
 })
 

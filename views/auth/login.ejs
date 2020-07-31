@@ -5,6 +5,7 @@
 
 </head>
 <body>
+<div class="backdrop"></div>
 <%-include("../includes/navigation.ejs")%>
 
 <% if (errorMessage) {%>
@@ -16,41 +17,23 @@
 <br>
 <br>
 
-<form class="login-form jumbotron shadow" action="/login" method="post">
 
-    <div>
-        <!--<label for="username">Username</label>-->
-        <div class="input-group">
 
-            <div class="input-group-prepend">
-            <span class="input-group-text">
-                <i class="fas fa-user"></i>
-            </span>
-            </div>
-            <input class="form-control form-control-sm" type="text" id="username" name="username" placeholder="Username" value="<%=oldInput.username%>">
+<form action="/login" class="login-form" method="post">
+    <h1 class="login-header">Log in to EasyLeaves</h1>
+
+    <div class="login-body">
+        <label for="username">Username</label>
+        <input class="form-control" type="text" id="username" name="username" value="<%=oldInput.username%>">
+
+        <label for="password">Password</label>
+        <input class="form-control" type="password" id="password" name="password" value="<%=oldInput.password%>">
+
+        <div class="login-buttons">
+            <input class="btn btn-sm" type="submit" value="Login">
+            <a class="link" href="/reset">Forgot password?</a>
         </div>
     </div>
-
-    <div>
-        <!--<label for="password">Password</label>-->
-        <div class="input-group">
-
-            <div class="input-group-prepend">
-            <span class="input-group-text">
-                <i class="fas fa-key"></i>
-            </span>
-            </div>
-            <input class="form-control form-control-sm" type="password" id="password" name="password" placeholder="Password" value="<%=oldInput.password%>">
-        </div>
-    </div>
-
-    <br>
-
-    <div class="d-flex flex-row justify-content-between">
-        <button class="btn btn-sm" type="submit">Login</button>
-
-        <a class="link" href="/reset">Reset password</a>
-    </div>
-
 </form>
+
 <%-include("../includes/end.ejs")%>

@@ -1,35 +1,33 @@
-<%- include("../includes/start.ejs")%>
+<%- include("../includes/start.ejs") %>
 <link rel="stylesheet" type="text/css" href="css/forms.css">
 <link rel="stylesheet" type="text/css" href="css/auth.css">
 
 </head>
 <body>
-<%-include("../includes/navigation.ejs")%>
+<div class="backdrop"></div>
+<%- include("../includes/navigation.ejs") %>
 
-<% if (errorMessage) {%>
+<% if (errorMessage) { %>
 
-    <div class="user-message user-message--error"><%= errorMessage%></div>
+    <div class="user-message user-message--error"><%= errorMessage %></div>
 
 <% } %>
 
 <br>
 <br>
 
-<form class="login-form jumbotron shadow" action="/reset" method="post">
+<form class="reset-form" action="/reset" method="post">
 
-    <div class="">
+    <h1 class="reset-header">Reset your password</h1>
+
+    <div class="reset-body">
         <label for="username">Username</label>
-        <input
-                class="form-control form-control-sm <%= isInvalid?"invalid":""%>"
-                type="text" id="username"
-                name="username"
-                value="<%=oldInput%>">
+        <input class="form-control" type="text" id="username" name="username" value="<%=oldInput%>">
+
+        <button class="btn btn-sm" id="reset-button" type="submit">Send password reset email</button>
     </div>
 
-    <br>
-
-    <button class="btn btn-sm" type="submit">Reset password</button>
 
 
 </form>
-<%-include("../includes/end.ejs")%>
+<%- include("../includes/end.ejs") %>

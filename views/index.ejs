@@ -1,6 +1,7 @@
 <%- include("includes/start.ejs")%>
 </head>
 <body>
+    <div class="backdrop"></div>
     <%-include("includes/navigation.ejs")%>
 
     <% if (isLoggedIn) {%>
@@ -13,9 +14,9 @@
                 <!--</div>-->
             <!--</div>-->
 
-            <div id="jumbotron" class="jumbotron-fluid jumbotron text-white">
-                <div class="container">
-                    <h1 class="display-4">Manage your leaves easily</h1>
+            <div class="home-page">
+                <div class="home-page-container">
+                    <h1 class="home-page_title">Manage your leaves easily</h1>
                 </div>
             </div>
 
@@ -27,9 +28,9 @@
                 <!--</div>-->
             <!--</div>-->
 
-            <div id="jumbotron" class="jumbotron-fluid jumbotron text-white">
-                <div class="container">
-                    <h1 class="display-4">Welcome Admin</h1>
+            <div class="home-page">
+                <div class="home-page-container">
+                    <h1 class="home-page_title">Welcome Admin</h1>
                 </div>
             </div>
 
@@ -43,11 +44,10 @@
             <!--</div>-->
         <!--</div>-->
 
-        <div id="jumbotron" class="jumbotron-fluid jumbotron text-white">
-            <div class="container">
-                <h1 class="display-4">Welcome to Easyleaves</h1>
-                <br>
-                <a href="/login" class="btn btn-light align-bottom">Login</a>
+        <div class="home-page">
+            <div class="home-page-container">
+                <h1 class="home-page_title">Welcome to Easyleaves</h1>
+<!--                <a href="/login" class="btn">Login</a>-->
             </div>
         </div>
 

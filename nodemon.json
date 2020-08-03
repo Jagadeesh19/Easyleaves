@@ -1,0 +1,8 @@
+{
+    "env": {
+        "MAIL_API": "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",
+        "MONGO_DEFAULT_DATABASE": "leaveportal",
+        "MONGO_PASSWORD": "Yuva12345",
+        "MONGO_USER": "jagadeesh"
+    }
+}

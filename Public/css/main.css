@@ -202,8 +202,8 @@ form {
 .btn:hover,
 .btn:active
 {
-
-
+    
+    border: 2px solid #00695c;
     color: #00695c;
     background: white;
 }

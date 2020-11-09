@@ -21,7 +21,7 @@ router.post(
                 return Employee.findOne({email:value})
                     .then(employee=> {
                         if (employee) {
-                            return Promise.reject("The employee with this emailId already exists");
+                            return Promise.reject("The employee with this email already exists");
                         }
                     });
                 return true;

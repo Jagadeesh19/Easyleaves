@@ -18,11 +18,14 @@ body{
 
 }
 
-main {
-    padding: 1rem;
-    margin: auto;
+.container
+{
+    margin-top: 3rem;
 }
 
+main.container{
+    margin-top: 5rem;
+}
 
 form {
     display: inline;
@@ -83,6 +86,10 @@ form {
     height: 3.5rem;
     align-items: center;
     width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
 }
 
 .main-nav{
@@ -170,7 +177,7 @@ form {
 
 .home-page{
     background-image: url("https://images.unsplash.com/photo-1519821172144-4f87d85de2a1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60");
-    height: 50vh;
+    height: 60vh;
 }
 
 .home-page-container{
@@ -188,7 +195,7 @@ form {
 
 @media (min-width: 40rem) {
     .home-page{
-        height: 35vh;
+        height: 45vh;
     }
     .home-page_title{
         font-size: 3rem;
@@ -319,7 +326,7 @@ form {
     }
     
     .form{
-        width: 30%;
+        width: 35%;
     }
 }
 

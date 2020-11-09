@@ -7,72 +7,74 @@
 <div class="backdrop"></div>
 <%- include("../includes/navigation.ejs") %>
 
-<% if (errorMessage) { %>
+<div class="container">
+    <% if (errorMessage) { %>
 
-    <div class="user-message user-message--error"><%= errorMessage %></div>
+        <div class="user-message user-message--error"><%= errorMessage %></div>
 
-<% } %>
+    <% } %>
 
-<br>
+    <br>
 
-<form class="form" action="/admin/<% if (editing) { %>edit-employee<% } else { %>add-employee <% } %>" method="post">
+    <form class="form" action="/admin/<% if (editing) { %>edit-employee<% } else { %>add-employee <% } %>" method="post">
 
-    <div class="form-body">
-        <% if (!editing) { %>
+        <div class="form-body">
+            <% if (!editing) { %>
 
-            <div class="">
-                <label for="name">Employee Name</label>
+                <div class="">
+                    <label for="name">Employee Name</label>
+                    <input
+                            class=" form-control"
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="<% if (editing) { %><%= employee.name %><% } else { %><%= oldInput.name %><% } %>">
+                </div>
+
+                <br>
+
+                <div class="">
+                    <label for="email">Employee Email</label>
+                    <input
+                            class=" form-control <%= validationErrors.find(e => e.param == "email") ? "invalid" : "" %>"
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="<% if (editing) { %><%= employee.email %><% } else { %> <%= oldInput.email %> <% } %>">
+                </div>
+
+            <% } else { %>
                 <input
-                        class=" form-control"
-                        type="text"
-                        id="name"
-                        name="name"
-                        value="<% if (editing) { %><%= employee.name %><% } else { %><%= oldInput.name %><% } %>">
-            </div>
+                        class=""
+                        type="hidden"
+                        name="employeeId"
+                        value="<%= employee._id %>">
+
+            <% } %>
 
             <br>
 
             <div class="">
-                <label for="email">Employee Email</label>
+                <label for="supervisor">Supervisor Email</label>
                 <input
-                        class=" form-control <%= validationErrors.find(e => e.param == "email") ? "invalid" : "" %>"
+                        class="form-control-sm form-control <%= validationErrors.find(e => e.param == "supervisor") ? "invalid" : "" %>"
                         type="email"
-                        id="email"
-                        name="email"
-                        value="<% if (editing) { %><%= employee.email %><% } else { %> <%= oldInput.email %> <% } %>">
+                        id="supervisor"
+                        name="supervisor"
+                        value="<% if (editing && employee.supervisor) { %><%= employee.supervisor.email %><% } else { %> <%= oldInput.supervisorEmail %> <% } %>">
             </div>
 
-        <% } else { %>
-            <input
-                    class=""
-                    type="hidden"
-                    name="employeeId"
-                    value="<%= employee._id %>">
+            <button class="btn btn-sm mt-3" type="submit">
+                <% if (editing) { %> Update Employee
+                <% } else { %>Add Employee
+                <% } %>
+            </button>
 
-        <% } %>
-
-        <br>
-
-        <div class="">
-            <label for="supervisor">Supervisor Email</label>
-            <input
-                    class="form-control-sm form-control <%= validationErrors.find(e => e.param == "supervisor") ? "invalid" : "" %>"
-                    type="email"
-                    id="supervisor"
-                    name="supervisor"
-                    value="<% if (editing && employee.supervisor) { %><%= employee.supervisor.email %><% } else { %> <%= oldInput.supervisorEmail %> <% } %>">
+            <br>
         </div>
 
-        <button class="btn btn-sm mt-3" type="submit">
-            <% if (editing) { %> Update Employee
-            <% } else { %>Add Employee
-            <% } %>
-        </button>
 
-        <br>
-    </div>
-
-
-</form>
+    </form>
+</div>
 
 <%- include("../includes/end.ejs") %>

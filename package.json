@@ -4,7 +4,7 @@
   "description": "Leave Management",
   "main": "app.js",
   "engines": {
-    "node": "12.18.2"
+    "node": "12.18.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -21,16 +21,17 @@
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "connect-flash": "^0.1.1",
-    "connect-mongodb-session": "^2.3.3",
+    "connect-mongodb-session": "^2.4.1",
     "ejs": "^2.7.4",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-validator": "^5.3.1",
     "helmet": "^3.23.3",
-    "mongodb": "^3.5.9",
-    "mongoose": "^5.9.26",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.10.13",
     "morgan": "^1.10.0",
     "nodemailer": "^5.1.1",
-    "nodemailer-sendgrid-transport": "^0.2.0"
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "sendgrid": "^5.2.3"
   }
 }

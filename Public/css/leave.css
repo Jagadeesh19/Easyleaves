@@ -1,7 +1,3 @@
-.leave-form{
-    display: block;
-    max-width: 90%;
-    width:30rem;
-    margin: auto;
+.leave-body div{
+    margin-bottom: 1rem;
 }
-

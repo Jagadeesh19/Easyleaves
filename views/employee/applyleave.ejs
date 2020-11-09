@@ -15,71 +15,73 @@
 <br>
 <br>
 
-<form class="leave-form jumbotron shadow" action="/apply" method="post">
-    <div class="">
-        <label for="leave-type">Leave Type</label>
-        <select class="form-control form-control-sm" id="leave-type" name="leaveType" required>
-            <option <%= (oldInput.leaveType=="loss of pay")?"selected":""%> value="loss of pay">Loss of pay</option>
-            <option <%= (oldInput.leaveType=="medical")?"selected":""%> value="medical">Medical Leave</option>
-            <option <%= (oldInput.leaveType=="work from home")?"selected":""%> value="work from home">Work from home</option>
-            <option <%= (oldInput.leaveType=="Annual leave")?"selected":""%> value="Annual leave">Annual Leave</option>
-        </select>
-    </div>
-    <div class="">
-        <label for="visitingPlace">Visiting Place</label>
-        <input
-                class="form-control form-control-sm"
-                type="text"
-                id="visitingPlace"
-                name="visitingPlace"
-                value="<%= oldInput.visitingPlace || ""%>"
-                required
-        >
-    </div>
+<form class="form" action="/apply" method="post">
+    <div class="form-body leave-body">
+        <div class="">
+            <label for="leave-type">Leave Type</label>
+            <select class="form-control form-control-sm" id="leave-type" name="leaveType" required>
+                <option <%= (oldInput.leaveType=="loss of pay")?"selected":""%> value="loss of pay">Loss of pay</option>
+                <option <%= (oldInput.leaveType=="medical")?"selected":""%> value="medical">Medical Leave</option>
+                <option <%= (oldInput.leaveType=="work from home")?"selected":""%> value="work from home">Work from home</option>
+                <option <%= (oldInput.leaveType=="Annual leave")?"selected":""%> value="Annual leave">Annual Leave</option>
+            </select>
+        </div>
+        <div class="">
+            <label for="visitingPlace">Visiting Place</label>
+            <input
+                    class="form-control form-control-sm"
+                    type="text"
+                    id="visitingPlace"
+                    name="visitingPlace"
+                    value="<%= oldInput.visitingPlace || ""%>"
+                    required
+            >
+        </div>
 
-    <div class="">
-        <label for="leave-reason">Leave Reason</label>
-        <textarea required class="form-control form-control-sm" id="leave-reason" rows="6" name="leaveMessage"><%= oldInput.leaveMessage || ""%></textarea>
-    </div>
-
-
-    <div class="">
-        <label for="from-date">From Date</label>
-        <input
-                class="form-control form-control-sm <%= validationErrors.find(e=>e.param=="fromDate")?"invalid":""%>"
-                type="date"
-                id="from-date"
-                name="fromDate"
-                required
-        >
-    </div>
+        <div class="">
+            <label for="leave-reason">Leave Reason</label>
+            <textarea required class="form-control form-control-sm" id="leave-reason" rows="6" name="leaveMessage"><%= oldInput.leaveMessage || ""%></textarea>
+        </div>
 
 
-    <!--<div class="">-->
+        <div class="">
+            <label for="from-date">From Date</label>
+            <input
+                    class="form-control form-control-sm <%= validationErrors.find(e=>e.param=="fromDate")?"invalid":""%>"
+                    type="date"
+                    id="from-date"
+                    name="fromDate"
+                    required
+            >
+        </div>
+
+
+        <!--<div class="">-->
         <!--<label for="from-time">From Time</label>-->
         <!--<input class="form-control form-control-sm" type="time" id="from-time" name="fromTime">-->
-    <!--</div>-->
+        <!--</div>-->
 
 
-    <div class="">
-        <label for="to-date">To Date</label>
-        <input
-                class="form-control form-control-sm <%= validationErrors.find(e=>e.param=="toDate")?"invalid":""%>"
-                type="date"
-                id="to-date"
-                name="toDate"
-                required>
-    </div>
+        <div class="">
+            <label for="to-date">To Date</label>
+            <input
+                    class="form-control form-control-sm <%= validationErrors.find(e=>e.param=="toDate")?"invalid":""%>"
+                    type="date"
+                    id="to-date"
+                    name="toDate"
+                    required>
+        </div>
 
 
-    <!--<div class="">-->
+        <!--<div class="">-->
         <!--<label for="to-time">To Time</label>-->
         <!--<input class="form-control form-control-sm" type="time" id="to-time" name="toTime">-->
-    <!--</div>-->
+        <!--</div>-->
 
-    <br>
+        <br>
 
-    <button class="btn btn-sm" type="submit">Submit Leave</button>
+        <button class="btn btn-sm" type="submit">Submit Leave</button>
+    </div>
 
 
 </form>

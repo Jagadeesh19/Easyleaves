@@ -1,9 +1,3 @@
-.employee-form{
-    display: block;
-    max-width: 90%;
-    width:20rem;
-    margin: auto;
-}
 
 .employee__name,
 .employee__email{

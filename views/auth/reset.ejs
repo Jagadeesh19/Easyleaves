@@ -7,27 +7,29 @@
 <div class="backdrop"></div>
 <%- include("../includes/navigation.ejs") %>
 
-<% if (errorMessage) { %>
+<div class="container">
+    <% if (errorMessage) { %>
 
-    <div class="user-message user-message--error"><%= errorMessage %></div>
+        <div class="user-message user-message--error"><%= errorMessage %></div>
 
-<% } %>
+    <% } %>
 
-<br>
-<br>
+    <br>
+    <br>
 
-<form class="reset-form" action="/reset" method="post">
+    <form class="form" action="/reset" method="post">
 
-    <h1 class="reset-header">Reset your password</h1>
+        <h1 class="reset-header">Reset your password</h1>
 
-    <div class="reset-body">
-        <label for="username">Username</label>
-        <input class="form-control" type="text" id="username" name="username" value="<%=oldInput%>">
+        <div class="form-body">
+            <label for="username">Username</label>
+            <input class="form-control" type="text" id="username" name="username" value="<%=oldInput%>">
 
-        <button class="btn btn-sm" id="reset-button" type="submit">Send password reset email</button>
-    </div>
+            <button class="btn btn-sm" id="reset-button" type="submit">Send password reset email</button>
+        </div>
 
 
 
-</form>
+    </form>
+</div>
 <%- include("../includes/end.ejs") %>

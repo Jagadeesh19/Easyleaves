@@ -157,7 +157,7 @@ exports.postReset=(req,res,next)=>{
                         html: `
                                     <h3>You requested for a password reset</h3>
                                     <h3>Follow the below link to reset your password</h3>
-                                    <p><a href="https://easy-leaves.herokuapp.com/reset/${token}">click here</a> </p>`
+                                    <p><a href="https://easy-leaves.azurewebsites.net/reset/${token}">click here</a> </p>`
                     });
                 })
         }
@@ -185,7 +185,7 @@ exports.postReset=(req,res,next)=>{
                                 html: `
                                     <h3>You requested for a password reset</h3>
                                     <h3>Follow the below link to reset your password</h3>
-                                    <p><a href="https://easy-leaves.herokuapp.com/reset/${token}">click here</a> </p>`
+                                    <p><a href="https://easy-leaves.azurewebsites.net/reset/${token}">click here</a> </p>`
                             });
                         })
                 })

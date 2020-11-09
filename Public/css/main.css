@@ -208,6 +208,11 @@ form {
     background: white;
 }
 
+.btn:focus{
+    box-shadow: none;
+    outline: none;
+}
+
 .link:hover{
     color: #00695c;
 }
@@ -261,6 +266,40 @@ form {
 
 }
 
+.form{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.form-header{
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.form-body{
+    margin-top: 1rem;
+    border: 1px solid #d8dee2;
+    border-radius: 5px;
+    padding: 1.25rem;
+    font-size: 1rem;
+    background: #fff;
+}
+
+.form-body label{
+    font-weight: bold;
+}
+
+.form-body label,
+.form-body label{
+    margin-bottom: 0.5rem;
+}
+
+
+
+
+
+
 @media (min-width: 40rem) {
     .mobile-header{
         display: none;
@@ -270,6 +309,10 @@ form {
     }
     .user-message{
         width: 30rem;
+    }
+    
+    .form{
+        width: 30%;
     }
 }
 

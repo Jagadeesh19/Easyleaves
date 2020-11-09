@@ -18,3 +18,20 @@
     font-size: 1.2rem;
 }
 
+.employee{
+    width: 90%;
+    margin-bottom: 1rem;
+}
+
+
+@media (min-width: 40rem) {
+    .employee{
+        width: 40%;
+    }
+}
+
+@media (min-width: 60rem){
+    .employee{
+        width: 30%;
+    }
+}
